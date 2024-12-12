@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Diamond
+    network: base
+    source:
+      address: "0x52e2230cdb80edebdadafcf24033608c9a636d7d"
+      abi: Diamond
+      startBlock: 2228875
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Deposit
+      abis:
+        - name: Diamond
+          file: ./abis/Diamond.json
+      eventHandlers:
+        - event: Deposit(address,address,uint256)
+          handler: handleDeposit
+      file: ./src/diamond.ts
