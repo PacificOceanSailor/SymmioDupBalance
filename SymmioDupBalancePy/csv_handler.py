@@ -22,3 +22,4 @@ def createSymmioDupBalancesCsv(addresses, dataFetcher, filename):
                 owner = dataFetcher.getOwner(address)
                 writer.writerow([address, owner, balance, allocatedBalance, balanceTotal])
         writer.writerow(["SUM", None, total_balance, total_allocated_balance, total])
+

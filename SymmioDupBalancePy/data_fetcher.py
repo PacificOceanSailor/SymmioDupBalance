@@ -40,8 +40,9 @@ class DataFetcher:
     def querySymmioDupAddresses(self):
         all_users = []
         _skip = 0
-        _skip_step = 1000
-        while True:
+        _skip_step = 500
+        finish_loop = False
+        while not finish_loop:
             headers = {
                 "Content-Type": "application/json"
             }
@@ -60,10 +61,11 @@ class DataFetcher:
             if response.status_code == 200:
                 data = response.json()
                 users = [Web3.to_checksum_address(deposit['user']) for deposit in data['data']['deposits']]
-                if not (len(users) > 0):
-                    break
+                if len(users) < _skip_step:
+                    finish_loop = True
                 all_users += users
             else:
                 raise Exception(f"Query failed with status code {response.status_code}: {response.text}")
             _skip += _skip_step
+        print(f"found {len(all_users)} number of deposits")
         return list(set(all_users))
